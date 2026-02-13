@@ -41,17 +41,17 @@ ENV/
 *~
 .DS_Store
 
-# Data files (large datasets)
-data/*.csv
-data/*.pkl
-data/*.h5
-data/*.hdf5
-data/*.parquet
-*.csv
-*.pkl
-*.h5
-*.hdf5
-*.parquet
+# # Data files (large datasets)
+# data/*.csv
+# data/*.pkl
+# data/*.h5
+# data/*.hdf5
+# data/*.parquet
+# *.csv
+# *.pkl
+# *.h5
+# *.hdf5
+# *.parquet
 
 # Model files
 models/
