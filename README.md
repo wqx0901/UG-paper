@@ -12,10 +12,26 @@
 
 ```
 UG-paper/
-├── w1/                    # 第一周
-│   └── week1.ipynb       
+├── week1/                 # 第一周：数据清洗与特征工程
+│   └── data.ipynb
+├── week2/                 # 第二周：多步预测策略实现
+│   ├── data.py
+│   ├── MSVR.py
+│   └── svr_strategies.ipynb
+├── week3/                 # 第三周：智能优化算法
+│   └── pso_svr.ipynb
+├── week4/                 # 第四周：阶段总结与报告
+│   └── pipeline.ipynb
+├── week5/                 # 第五周：深度学习起步
+│   ├── data.py
+│   ├── models.py
+│   └── global_train.ipynb
 ├── data/                  # 数据集目录
-│   └── L1-train.csv      # GEFCom2014 负荷数据
+│   ├── GEFCom2014/
+│   │   └── L1-train.csv   # GEFCom2014 负荷数据
+│   └── electricity/
+│       └── electricity.csv   # 多用户用电负荷数据 (ELC)
+├── requirements.txt
 ├── .gitignore
 └── README.md
 ```
