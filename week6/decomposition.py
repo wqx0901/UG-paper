@@ -1,10 +1,3 @@
-"""
-Week 6 sequence decomposition helpers.
-
-This module keeps the decomposition logic out of the notebook so the week 6
-workflow matches the README requirement: data processing and experiment logic
-should gradually move into reusable .py files.
-"""
 
 from __future__ import annotations
 
@@ -44,28 +37,28 @@ def moving_average_trend(series: np.ndarray, window: int = 25) -> np.ndarray:
     return trend
 
 
-def seasonal_pattern_from_detrended(
-    detrended: np.ndarray,
-    period: int = 24,
-) -> np.ndarray:
-    """
-    Compute a reusable periodic template from a detrended series.
+# def seasonal_pattern_from_detrended(
+#     detrended: np.ndarray,
+#     period: int = 24,
+# ) -> np.ndarray:
+#     """
+#     Compute a reusable periodic template from a detrended series.
 
-    For hourly load data, period=24 corresponds to the daily pattern.
-    """
-    if period < 2:
-        raise ValueError("period must be >= 2")
+#     For hourly load data, period=24 corresponds to the daily pattern.
+#     """
+#     if period < 2:
+#         raise ValueError("period must be >= 2")
 
-    detrended = np.asarray(detrended, dtype=np.float64)
-    pattern = np.zeros(period, dtype=np.float64)
+#     detrended = np.asarray(detrended, dtype=np.float64)
+#     pattern = np.zeros(period, dtype=np.float64)
 
-    for offset in range(period):
-        slot_values = detrended[offset::period]
-        pattern[offset] = slot_values.mean()
+#     for offset in range(period):
+#         slot_values = detrended[offset::period]
+#         pattern[offset] = slot_values.mean()
 
-    # Center the periodic pattern so the long-run bias stays in the trend term.
-    pattern -= pattern.mean()
-    return pattern
+#     # Center the periodic pattern so the long-run bias stays in the trend term.
+#     pattern -= pattern.mean()
+#     return pattern
 
 
 def decompose_series(
@@ -77,19 +70,17 @@ def decompose_series(
     Decompose a load sequence into trend, periodic and residual components.
 
     Returns:
-        Dictionary with keys: observed, trend, periodic, residual.
+        Dictionary with keys: observed, trend, periodic
     """
     observed = np.asarray(series, dtype=np.float64)
     trend = moving_average_trend(observed, window=trend_window)
-    periodic = observed - trend # detrended = periodic + residual
-
+    # "二分解"模式，周期项为原始负荷减去趋势项
+    periodic = observed - trend
 
     return {
         "observed": observed,
         "trend": trend,
         "periodic": periodic,
-        "residual": residual,
-        "periodic_pattern": pattern,
     }
 
 
@@ -118,13 +109,10 @@ def decomposition_summary(components: dict[str, np.ndarray]) -> dict[str, float]
     observed = components["observed"]
     trend = components["trend"]
     periodic = components["periodic"]
-    residual = components["residual"]
-    reconstructed = trend + periodic + residual
-
+    reconstructed = trend + periodic
     return {
         "observed_var": float(np.var(observed)),
         "trend_var": float(np.var(trend)),
         "periodic_var": float(np.var(periodic)),
-        "residual_var": float(np.var(residual)),
         "reconstruction_mae": float(np.mean(np.abs(observed - reconstructed))),
     }
