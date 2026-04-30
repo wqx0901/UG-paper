@@ -20,7 +20,7 @@ class ConvBlock(nn.Module):
         padding = kernel_size // 2
         self.block = nn.Sequential(
             # 第一个卷积层：提取局部模式。
-            nn.Conv2d(in_channels, out_channels, kernel_size=kernel_size, padding=padding),
+            nn.Conv2d(in_channels, out_channels, kernel_size=(kernel_size,kernel_width), padding=padding),
             nn.ReLU(),
             # 第二个卷积层：进一步组合局部特征。
             nn.Conv2d(out_channels, out_channels, kernel_size=kernel_size, padding=padding),

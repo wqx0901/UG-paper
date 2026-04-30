@@ -81,10 +81,8 @@ def decompose_series(
     """
     observed = np.asarray(series, dtype=np.float64)
     trend = moving_average_trend(observed, window=trend_window)
-    detrended = observed - trend # detrended = periodic + residual
-    pattern = seasonal_pattern_from_detrended(detrended, period=period)
-    periodic = pattern[np.arange(len(observed)) % period]
-    residual = observed - trend - periodic
+    periodic = observed - trend # detrended = periodic + residual
+
 
     return {
         "observed": observed,

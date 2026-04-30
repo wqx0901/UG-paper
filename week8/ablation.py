@@ -43,9 +43,7 @@ def decompose_window(
     """
     window = np.asarray(window, dtype=np.float32)
     trend = moving_average_trend(window, window=trend_window).astype(np.float32)
-    detrended = window - trend
-    pattern = seasonal_pattern_from_detrended(detrended, period=period).astype(np.float32)
-    periodic = pattern[np.arange(len(window)) % period].astype(np.float32)
+    periodic = window - trend
     return trend, periodic
 
 
